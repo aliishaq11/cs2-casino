@@ -6,5 +6,9 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CounterStrikeSharp.API" Version="1.0.252" ExcludeAssets="runtime" />
+    <Reference Include="StoreApi">
+      <HintPath>.\StoreApi.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
 </Project>
