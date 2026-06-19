@@ -6,6 +6,8 @@ A lightweight CounterStrikeSharp plugin that interfaces with `cs2-store` to brin
 - **!casino** - Shows your current credits and the available games.
 - **!flip <heads/tails> <wager>** - A 50/50 coin flip. Guess correctly to double your wager!
 - **!roll <over/under/7> <wager>** - A classic dice game. Bet Over/Under 7 for a 2x payout, or take a high-risk shot and bet exactly on 7 for a massive 4x payout!
+- **!slots <wager>** - Spin the weighted slot machine! Features various multipliers and a 50x Jackpot. (Max wager: 1000 credits).
+- **!roulette <red/black/green/number> <wager>** - A classic roulette wheel. Bet on colors or numbers for payouts up to 36x!
 
 ## Requirements
 - [CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp) (v1.0.252+ / .NET 10)

@@ -4,6 +4,7 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 using StoreApi;
+using Cs2Casino.Games;
 
 namespace Cs2Casino;
 
@@ -36,6 +37,8 @@ public class Cs2CasinoPlugin : BasePlugin
         player.PrintToChat($" \x04[Casino]\x01 Games available:");
         player.PrintToChat($" \x04-\x01 \x06!flip\x01 : 50/50 Coin flip. Win 2x your bet.");
         player.PrintToChat($" \x04-\x01 \x06!roll\x01 : Dice game. Bet over/under 7 (2x payout) or exactly 7 (4x payout).");
+        player.PrintToChat($" \x04-\x01 \x06!slots\x01 : Spin the slot machine for massive jackpots.");
+        player.PrintToChat($" \x04-\x01 \x06!roulette\x01 : Classic roulette. Bet red, black, green, or a number.");
     }
 
     [ConsoleCommand("css_flip", "Flip a coin to win credits (50/50)")]
@@ -161,5 +164,47 @@ public class Cs2CasinoPlugin : BasePlugin
         {
             player.PrintToChat($" \x04[Casino]\x01 You guessed wrong. You lost \x02{wager}\x01 credits.");
         }
+    }
+
+    [ConsoleCommand("css_slots", "Play the slot machine")]
+    public void OnSlotsCommand(CCSPlayerController? player, CommandInfo info)
+    {
+        if (player == null || _storeApi == null) return;
+
+        if (info.ArgCount < 2)
+        {
+            player.PrintToChat(" \x04[Casino]\x01 \x02Incorrect Syntax!\x01 Usage: \x06!slots <wager>\x01");
+            return;
+        }
+
+        if (!int.TryParse(info.GetArg(1), out int wager) || wager <= 0)
+        {
+            player.PrintToChat(" \x04[Casino]\x01 Invalid wager amount.");
+            return;
+        }
+
+        SlotsGame.Play(player, _storeApi, wager);
+    }
+
+    [ConsoleCommand("css_roulette", "Play roulette")]
+    public void OnRouletteCommand(CCSPlayerController? player, CommandInfo info)
+    {
+        if (player == null || _storeApi == null) return;
+
+        if (info.ArgCount < 3)
+        {
+            player.PrintToChat(" \x04[Casino]\x01 \x02Incorrect Syntax!\x01 Usage: \x06!roulette <red/black/green/number> <wager>\x01");
+            return;
+        }
+
+        string betType = info.GetArg(1).ToLower();
+
+        if (!int.TryParse(info.GetArg(2), out int wager) || wager <= 0)
+        {
+            player.PrintToChat(" \x04[Casino]\x01 Invalid wager amount.");
+            return;
+        }
+
+        RouletteGame.Play(player, _storeApi, betType, wager);
     }
 }
