@@ -10,12 +10,12 @@ public static class SlotsGame
     
     // Weighted array to make higher tier symbols rarer
     private static readonly string[] Symbols = { 
-        "🍒", "🍒", "🍒", "🍒", "🍒", 
-        "🍋", "🍋", "🍋", "🍋", 
-        "🍉", "🍉", "🍉", 
-        "🔔", "🔔", 
-        "💎", 
-        "7️⃣" 
+        "\x02[CHERRY]\x01", "\x02[CHERRY]\x01", "\x02[CHERRY]\x01", "\x02[CHERRY]\x01", "\x02[CHERRY]\x01", 
+        "\x09[LEMON]\x01", "\x09[LEMON]\x01", "\x09[LEMON]\x01", "\x09[LEMON]\x01", 
+        "\x04[MELON]\x01", "\x04[MELON]\x01", "\x04[MELON]\x01", 
+        "\x0A[BELL]\x01", "\x0A[BELL]\x01", 
+        "\x0B[DIAMOND]\x01", 
+        "\x02[SEVEN]\x01" 
     };
 
     public static void Play(CCSPlayerController player, IStoreApi storeApi, int wager)
@@ -50,12 +50,12 @@ public static class SlotsGame
             // 3 of a kind
             multiplier = reel1 switch
             {
-                "7️⃣" => 50,
-                "💎" => 25,
-                "🔔" => 10,
-                "🍉" => 5,
-                "🍋" => 3,
-                "🍒" => 2,
+                "\x02[SEVEN]\x01" => 50,
+                "\x0B[DIAMOND]\x01" => 25,
+                "\x0A[BELL]\x01" => 10,
+                "\x04[MELON]\x01" => 5,
+                "\x09[LEMON]\x01" => 3,
+                "\x02[CHERRY]\x01" => 2,
                 _ => 0
             };
             message = multiplier == 50 ? "\x0CJACKPOT!\x01" : "\x06Winner!\x01";
@@ -64,14 +64,14 @@ public static class SlotsGame
         {
             // Check for 2 cherries
             int cherryCount = 0;
-            if (reel1 == "🍒") cherryCount++;
-            if (reel2 == "🍒") cherryCount++;
-            if (reel3 == "🍒") cherryCount++;
+            if (reel1 == "\x02[CHERRY]\x01") cherryCount++;
+            if (reel2 == "\x02[CHERRY]\x01") cherryCount++;
+            if (reel3 == "\x02[CHERRY]\x01") cherryCount++;
 
             if (cherryCount == 2)
             {
                 multiplier = 1; // Break even
-                message = "\x04Consolation Prize!\x01";
+                message = "\u0004Consolation Prize!\x01";
             }
             else
             {
@@ -79,7 +79,7 @@ public static class SlotsGame
             }
         }
 
-        player.PrintToChat($" \x04[Casino]\x01 🎰 [ {reel1} | {reel2} | {reel3} ] 🎰 - {message}");
+        player.PrintToChat($" \x04[Casino]\x01 [ {reel1} | {reel2} | {reel3} ] - {message}");
 
         if (multiplier > 0)
         {
@@ -87,12 +87,16 @@ public static class SlotsGame
             storeApi.GivePlayerCredits(player, winnings);
             if (multiplier > 1)
             {
-                player.PrintToChat($" \x04[Casino]\x01 You won \x06{winnings}\x01 credits! ({multiplier}x)");
+                player.PrintToChat($" \x04[Casino]\x01 You won \x06{winnings}\x01 credits! ({multiplier}x) You now have \x06{storeApi.GetPlayerCredits(player)}\x01 credits.");
             }
             else
             {
-                player.PrintToChat($" \x04[Casino]\x01 You broke even and got your \x06{winnings}\x01 credits back.");
+                player.PrintToChat($" \x04[Casino]\x01 You broke even and got your \x06{winnings}\x01 credits back. You now have \x06{storeApi.GetPlayerCredits(player)}\x01 credits.");
             }
+        }
+        else
+        {
+            player.PrintToChat($" \x04[Casino]\x01 You lost \x02{wager}\x01 credits. You now have \x06{storeApi.GetPlayerCredits(player)}\x01 credits.");
         }
     }
 }

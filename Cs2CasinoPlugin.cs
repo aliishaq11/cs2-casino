@@ -85,11 +85,11 @@ public class Cs2CasinoPlugin : BasePlugin
         {
             int winnings = wager * 2;
             _storeApi.GivePlayerCredits(player, winnings);
-            player.PrintToChat($" \x04[Casino]\x01 The coin landed on \x06{resultStr}\x01! You won \x06{winnings}\x01 credits!");
+            player.PrintToChat($" \x04[Casino]\x01 The coin landed on \x06{resultStr}\x01! You won \x06{winnings}\x01 credits! You now have \x06{_storeApi.GetPlayerCredits(player)}\x01 credits.");
         }
         else
         {
-            player.PrintToChat($" \x04[Casino]\x01 The coin landed on \x02{resultStr}\x01. You lost \x02{wager}\x01 credits.");
+            player.PrintToChat($" \x04[Casino]\x01 The coin landed on \x02{resultStr}\x01. You lost \x02{wager}\x01 credits. You now have \x06{_storeApi.GetPlayerCredits(player)}\x01 credits.");
         }
     }
 
@@ -158,11 +158,11 @@ public class Cs2CasinoPlugin : BasePlugin
         {
             int winnings = wager * multiplier;
             _storeApi.GivePlayerCredits(player, winnings);
-            player.PrintToChat($" \x04[Casino]\x01 You guessed correctly! You won \x06{winnings}\x01 credits!");
+            player.PrintToChat($" \x04[Casino]\x01 You guessed correctly! You won \x06{winnings}\x01 credits! You now have \x06{_storeApi.GetPlayerCredits(player)}\x01 credits.");
         }
         else
         {
-            player.PrintToChat($" \x04[Casino]\x01 You guessed wrong. You lost \x02{wager}\x01 credits.");
+            player.PrintToChat($" \x04[Casino]\x01 You guessed wrong. You lost \x02{wager}\x01 credits. You now have \x06{_storeApi.GetPlayerCredits(player)}\x01 credits.");
         }
     }
 

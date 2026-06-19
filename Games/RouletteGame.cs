@@ -45,9 +45,9 @@ public static class RouletteGame
         bool resultIsGreen = resultNumber == 0;
         bool resultIsBlack = !resultIsRed && !resultIsGreen;
 
-        string resultColorStr = resultIsGreen ? "\x04Green\x01" : resultIsRed ? "\x02Red\x01" : "\x0CBlack\x01";
+        string resultColorStr = resultIsGreen ? "\u0004Green\x01" : resultIsRed ? "\x02Red\x01" : "\u000CBlack\x01";
         
-        player.PrintToChat($" \x04[Casino]\x01 🎡 The wheel spins... and lands on {resultColorStr} {resultNumber}!");
+        player.PrintToChat($" \x04[Casino]\x01 The wheel spins... and lands on {resultColorStr} {resultNumber}!");
 
         bool won = false;
         int multiplier = 0;
@@ -77,11 +77,11 @@ public static class RouletteGame
         {
             int winnings = wager * multiplier;
             storeApi.GivePlayerCredits(player, winnings);
-            player.PrintToChat($" \x04[Casino]\x01 You won \x06{winnings}\x01 credits! ({multiplier}x)");
+            player.PrintToChat($" \x04[Casino]\x01 You won \x06{winnings}\x01 credits! ({multiplier}x) You now have \x06{storeApi.GetPlayerCredits(player)}\x01 credits.");
         }
         else
         {
-            player.PrintToChat($" \x04[Casino]\x01 You lost \x02{wager}\x01 credits.");
+            player.PrintToChat($" \x04[Casino]\x01 You lost \x02{wager}\x01 credits. You now have \x06{storeApi.GetPlayerCredits(player)}\x01 credits.");
         }
     }
 }
